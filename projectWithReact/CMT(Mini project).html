@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    input, button {
+      margin-bottom: 10px;
+      padding: 8px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 70%;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .checkout-btn {
+      cursor: pointer;
+      color: blue;
+    }
+
+    .remove-btn {
+      cursor: pointer;
+      color: red;
+    }
+  </style>
+  <title>Restaurant Reservation System</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const App = () => {
+      const [guestCount, setGuestCount] = React.useState('');
+      const [name, setName] = React.useState('');
+      const [phone, setPhone] = React.useState('');
+      const [records, setRecords] = React.useState([]);
+      const [seatsLeft, setSeatsLeft] = React.useState(20); // Set initial total capacity
+
+      const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const entry = {
+          name,
+          phone,
+          count: parseInt(guestCount, 10),
+          checkin: new Date().toLocaleTimeString(),
+          checkout: '',
+        };
+
+        // Check if the name already exists
+        const isDuplicate = records.some((record) => record.name === name);
+
+        if (isDuplicate) {
+          alert('Customer already exists');
+          return;
+        }
+
+        // Check if guest count exceeds capacity
+        if (entry.count > seatsLeft) {
+          alert('Guest count exceeds capacity');
+          return;
+        }
+
+        setRecords([entry, ...records]);
+        setSeatsLeft((prevSeatsLeft) => prevSeatsLeft - entry.count);
+
+        // Clear form inputs
+        setGuestCount('');
+        setName('');
+        setPhone('');
+      };
+
+      const handleCheckout = (index) => {
+        const updatedRecords = [...records];
+        updatedRecords[index].checkout = new Date().toLocaleTimeString();
+        setRecords(updatedRecords);
+        setSeatsLeft((prevSeatsLeft) => prevSeatsLeft + updatedRecords[index].count);
+      };
+
+      const handleDelete = (index) => {
+        const deletedEntry = records[index];
+        const updatedRecords = records.filter((_, i) => i !== index);
+
+        // If not checked out, increase seatsLeft
+        if (!deletedEntry.checkout) {
+          setSeatsLeft((prevSeatsLeft) => prevSeatsLeft + deletedEntry.count);
+        }
+
+        setRecords(updatedRecords);
+      };
+
+      return (
+        <div>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Guest Count:
+              <input
+                type="number"
+                value={guestCount}
+                onChange={(e) => setGuestCount(e.target.value)}
+                required
+              />
+            </label>
+            <br />
+            <label>
+              Name:
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </label>
+            <br />
+            <label>
+              Phone:
+              <input
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                required
+              />
+            </label>
+            <br />
+            <button type="submit">Submit</button>
+          </form>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Count</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Status</th>
+                <th>Remove Entry</th>
+              </tr>
+            </thead>
+            <tbody>
+              {records.map((entry, index) => (
+                <tr key={index}>
+                  <td>{entry.count}</td>
+                  <td>{entry.name}</td>
+                  <td>{entry.phone}</td>
+                  <td>{entry.checkin}</td>
+                  <td>
+                    {entry.checkout ? entry.checkout : (
+                      <span
+                        className="checkout-btn"
+                        onClick={() => handleCheckout(index)}
+                      >
+                        Click to Checkout
+                      </span>
+                    )}
+                  </td>
+                  <td>{entry.checkout ? 'Checked Out' : 'Active'}</td>
+                  <td>
+                    <span
+                      className="remove-btn"
+                      onClick={() => handleDelete(index)}
+                    >
+                      Delete
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <p>Seats Left: {seatsLeft}</p>
+        </div>
+      );
+    };
+
+     const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+      rootElement.render(<App />);
+    </script>
+  </body>
+</html>
+

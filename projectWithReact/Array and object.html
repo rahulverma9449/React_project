@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Starting with React Application</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+  
+  <div id="root"></div>
+  <script type="text/babel">
+    function App(){
+      let cars = ["BMW", "Audi", "Nexa", "Honda", "Maruti"];
+      let obj = {
+        name: "Alexa",
+      }
+      return (
+        <>
+      <h1>Arrays and Objects in JavaScript</h1>
+      {cras.map((car, index)=>(
+        <li key={index}>{cars}</li>
+      ))}
+      {cars.map((num) => <h2>{num}</h2>)}
+      
+      <h2>{obj.name}</h2>
+        </>
+      )
+    }
+    const rootElement = ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>

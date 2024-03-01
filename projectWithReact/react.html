@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <title>React App</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/javascript">
+      // Define the React component
+      function App() {
+        const imageUrl = 'https://files.codingninjas.in/coding-ninjas-24647.png';
+
+        return React.createElement(
+          'div',
+          null,
+          React.createElement('h1', null, 'Image Rendering Example'),
+          React.createElement('img', { src: imageUrl, alt: 'Coding Ninjas Logo' })
+        );
+      }
+
+      // Render the React component to the root element in the HTML file
+      ReactDOM.render(React.createElement(App), document.getElementById('root'));
+    </script>
+  </body>
+</html>

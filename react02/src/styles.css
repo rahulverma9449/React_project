@@ -1,0 +1,48 @@
+/* Write code for your CSS here */
+
+/* styles.css */
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  max-width: 800px;
+  margin: 50px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.hero {
+  text-align: left;
+}
+
+.skills {
+  margin-top: 20px;
+}
+
+.about {
+  margin-top: 20px;
+}
+
+
+
+
+ul{
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+
+}
+/* Added styling for the box around each list item */
+li {
+  padding: 10px;
+  border: 1px solid #08b9d8;
+  background-color: #11f8f0; /* Background color for each list item */
+  border-radius: 5px; /* Optional: Add rounded corners */
+}
